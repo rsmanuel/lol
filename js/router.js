@@ -1,16 +1,24 @@
-import { start as classicControllerStart } from "./controllers/classic.js";
+import { start as splashControllerStart } from "./controllers/splash.js";
 
 const ROUTES = {
-    classic: {
-        hash: "#classic",
-        controller: classicControllerStart,
+    menu: {
+        hash: '',
+        controller: () => { console.log('main') }
     },
+    splash: {
+        hash: "#splash",
+        controller: splashControllerStart,
+    },
+    ability: {
+        hash: "#ability",
+        controller: () => { console.log('ability') }
+    }
 };
 
-const DEFAULT_ROUTE = "classic";
-let currentHash = "";
+const DEFAULT_ROUTE = "splash";
+let currentHash = null;
 
-function hashCheck() {
+const hashCheck = () => {
     if (window.location.hash === currentHash) {
         return;
     }
@@ -26,7 +34,7 @@ function hashCheck() {
     loadController(ROUTES[routeName].controller);
 }
 
-function loadController(controller) {
+const loadController = (controller) => {
     try {
         controller();
     } catch (err) {
@@ -35,10 +43,7 @@ function loadController(controller) {
     }
 }
 
-function start() {
-    window.location.hash = window.location.hash || ROUTES[DEFAULT_ROUTE].hash;
-}
-
+const start = hashCheck;
 window.onhashchange = hashCheck;
 
 export { start };
